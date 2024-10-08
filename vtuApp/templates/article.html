@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chilomax Blog Application</title>
+
+    <!-- Import Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <!-- Swiper Slider CSS File -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/6.4.5/swiper-bundle.min.css">
+    
+    <!-- Bootstrap CSS for responsive layout and components -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    
+    <!-- Custom CSS -->
+    <style>
+        /* CSS to style the body with background color and font family */
+        html {
+           scroll-behavior: smooth;
+        }
+        
+        body {
+            background-color: #f4f7f6;
+            font-family: 'Roboto', sans-serif;
+            line-height: 1.6;
+        }
+
+        /* Styling the navbar */
+        .navbar-custom {
+            background-color: #007bff;
+        }
+        .navbar-custom .navbar-brand, .navbar-custom .nav-link {
+            color: #fff;
+        }
+        .navbar-custom .nav-link:hover {
+            color: #d3d3d3;
+        }
+
+        /* Hero section styling */
+        .hero-section {
+            background: #007bff;
+            color: #fff;
+            padding: 60px 20px;
+            text-align: center;
+        }
+        .hero-section h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+        }
+        .hero-section p {
+            font-size: 1.2rem;
+            font-weight: 400;
+        }
+
+        /* Button custom styling */
+        .btn-custom {
+            margin-top:20px;
+            background-color: #28a745;
+            color: #fff;
+            border-radius: 25px;
+            padding: 12px 24px;
+            font-size: 1.1rem;
+            text-decoration: none;
+        }
+        .btn-custom:hover {
+            background-color: #218838;
+        }
+
+        /* Grid layout for displaying articles in a grid structure */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr); /* 4 columns for larger screens */
+            gap: 20px;
+        }
+        
+         /* Article Card */
+        .article {
+            border: 1px solid #eaeaea;
+            border-radius: 10px;
+            overflow: hidden;
+            transition: box-shadow 0.3s;
+            background: #fff;
+        }
+
+        .article:hover {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .article img {
+            max-width: 100%;
+            height: auto;
+            border-bottom: 1px solid #eaeaea;
+        }
+        
+        
+
+        /* Responsive layout for mobile devices */
+        @media (max-width: 768px) {
+            .grid {
+                grid-template-columns: 1fr; /* 1 column for smaller screens */
+            }
+            .hero-section h1 {
+                font-size: 2rem;
+                font-weight: 500;
+            }
+        }
+
+        /* Styling for individual article cards */
+        
+        /* Title and text secondary styling */
+        .text-title {
+            font-size: 1.6rem;
+            margin: 15px 0;
+            font-weight: bold;
+        }
+        .text-secondary {
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+
+        /* Thumbnail and avatar styling */
+        .thumbnail img {
+            width: 320px;
+            height: 300px;
+        }
+        .author-avatar img {
+            height: 100px;
+            width: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        
+        .post-footer {
+           padding-top: 20px;
+           border-top: 1px solid #e0e0e0;
+        }
+        .post-tags{
+          margin-bottom: 100px;
+        }
+        
+        .post-author{
+          margin-top: 100px;
+        }
+        
+        .post-tags .nav-link {
+           margin: 5px;
+           background-color:#ced4da ;
+           border-radius: 15px;
+           padding: 8px 12px;
+           transition: background-color 0.3s ease;
+           border-color:#ced4da ;
+        }
+
+        .post-tags .nav-link:hover {
+           background-color:#e9ecef;
+        }
+        .author-info h3 {
+           font-weight: 700;
+        }
+
+        .author-info p {
+            margin: 5px 0;
+        }
+        
+        .post-comments {
+             margin-top: 10px;
+             padding: 20px;
+              background-color: #f9f9f9;
+             border-radius: 8px;
+        }
+
+       .post-comments h3 {
+            font-size: 20px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .comment-details {
+            margin-bottom: 20px;
+       }
+
+       .comment-item {
+          padding: 10px 0;
+          border-bottom: 1px solid #ddd;
+       }
+
+      .comment-item:last-child {
+          border-bottom: none;
+      }
+
+      .comment-item .avatar img {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+      }
+
+      .comment-content h5 {
+         font-size: 16px;
+         font-weight: 500;
+         margin-bottom: 5px;
+         color: #007bff;
+      }
+
+     .comment-content p {
+        font-size: 14px;
+        color: #555;
+     }
+
+     /* Comment form styling */
+      .comment-form {
+        padding: 20px;
+        background-color: #fff;
+        border: 1px solid #e0e0e0;
+      }
+
+      .comment-form input,
+      .comment-form textarea {
+         width: 100%;
+         padding: 10px;
+         margin-bottom: 15px;
+         border: 1px solid #ced4da;
+         border-radius: 5px;
+         font-size: 14px;
+      }
+
+      .comment-form input:focus,
+      .comment-form textarea:focus {
+         outline: none;
+         border-color: #007bff;
+        box-shadow: 0 0 5px rgba(0, 123, 255, 0.2);
+      }
+
+      .comment-form button {
+        padding: 10px 20px;
+        background-color: #28a745;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        font-size: 16px;
+      }
+
+      .comment-form button:hover {
+         background-color: #218838;
+      }
+      .comment-item {
+        padding: 10px 0;
+        position: relative; 
+      }
+    </style>
+</head>
+
+<body>
+    <!-- Navbar for navigation -->
+    <header id="header" class="shadow bg-light">
+        <nav class="navbar navbar-expand-lg navbar-light container">
+            <a href="#" class="navbar-brand text-dark">Chilomax Blog</a>
+            <!-- Toggle button for responsive menu -->
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#blogNavbar">
+                <span><i class="fas fa-bars"></i></span>
+            </button>
+            <!-- Menu items -->
+            <div class="collapse navbar-collapse" id="blogNavbar">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item"><a href="{% url 'index' %}" class="nav-link">Home</a></li>
+                    <li class="nav-item"><a href="{% url 'dashboard' %}" class="nav-link">All Posts</a></li>
+                    <li class="nav-item"><a href="{% url 'about' %}" class="nav-link">About</a></li>
+                    <li class="nav-item"><a href="{% url 'contact' %}" class="nav-link">Contact</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main blog post content -->
+    <main id="site-main">
+        <!-- Post Content -->
+        <section class="container">
+            <article id="post">
+                <!-- Article Heading -->
+                <div class="headings text-center">
+                    <div class="title">
+                        <h2 class="text-title text-dark display-1">{{ post.title }}</h2>
+                    </div>
+                    <div class="meta">
+                        <a href="#" class="link display-2 text-secondary px-1">
+                            <i class="fas fa-user text-primary"></i> {{ post.author }}
+                        </a>
+                        <a href="#" class="link display-2 text-secondary px-1">
+                            <i class="fas fa-clock text-primary"></i> {{ post.date }}
+                        </a>
+                        <a href="#" class="link display-2 text-secondary px-1">
+                            <i class="fas fa-comments text-primary"></i> {{ number_of_comments }} comment
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Thumbnail -->
+                <div class="thumbnail mt-3" style="margin-bottom : 0">
+                    <img src="{{ post.image.url }}" class="thumbnail" alt="" style="object-fit: cover;" loading="lazy">
+                </div>
+                <!-- Content -->
+                <div class="content text-dark display-2 secondary-title mt-3" style="font-size: 14px; line-height: 1.5; color:black;">
+                    <p>{{ post.body }}</p>
+                    
+                    <!-- Add the edit link -->
+                   {% if post.author == request.user %}
+                    <a href="{% url 'edit-post' post.slug %}">Edit Post</a>
+                   {% endif %}
+
+                   <!-- Add other content, like comments or back to list link -->
+                   <p><a href="{% url 'dashboard' %}">Back to List</a></p>
+                
+            <!-- Post Footer -->
+            <div class="post-footer mb-3">
+                <div class="post-tags d-flex flex-wrap justify-content-center">
+                   {% if category1 and category1.slug %}
+                     <a href="{% url 'category_posts' category1.slug %}" class="nav-link btn bg-light">{{ category1.name }}</a>
+                   {% endif %}
+                   {% if category2 and category2.slug %}
+                     <a href="{% url 'category_posts' category2.slug %}" class="nav-link btn bg-light">{{ category2.name }}</a>
+                  {% endif %}
+                </div>
+
+                <div class="post-author text-center">
+                  <h4>Posted by: {{ post.author.first_name }} {{post.author.username}}</h4>
+                     <div class="author-avatar">
+                        {% if author_profile.profileimg %}
+                            <img src="{{ author_profile.profileimg.url }}" alt="{{ post.author.username }}'s Profile Image" class="author-image" style="width: 100px; height: 100px; border-radius: 50%; object-fit: cover;" />
+                        {% else %}
+                            <img src="{{ MEDIA_URL }}profile_images/blank-profile-picture.png" alt="Default Profile Image" class="author-image" style="width: 100px; height: 100px; border-radius: 50%; object-fit: cover;" />
+                        {% endif %}
+                    </div>
+
+                    <div class="author-info py-2">
+                        <h3 class="text-dark">{{ post.author }}</h3>
+                        <p class="text-secondary secondary-title" style="font-size: 14px; line-height: 1.5; color:black;">{{ post.body }}</p>
+
+                        <div class="post-tags d-flex flex-wrap justify-content-center">
+                            <a href="#" class="nav-link"><i class="fab fa-facebook-f"></i></a>
+                            <a href="#" class="nav-link"><i class="fab fa-twitter"></i></a>
+                            <a href="#" class="nav-link"><i class="fab fa-instagram"></i></a>
+                            <a href="#" class="nav-link"><i class="fab fa-dribbble"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Post Comments -->
+                <div class="post-comments py-2">
+                    <h3 class="text-center display-1 secondary-title py-2">{{ number_of_comments }} Comments</h3>
+
+                    <div class="comment-details">
+                        {% for comment_data in comment_profiles %}
+                            <div class="comment-item py-2">
+                                <div class="d-flex">
+                                    <div class="avatar px-2">
+                                        {% if  comment_data.profile.profileimg %}
+                            <img src="{{ comment_data.profile.profileimg.url}}" alt="Profile Image" style="width: 50px; height: 50px; border-radius: 50%; object-fit: cover;"/>
+                        {% else %}
+                          <img src="{{ MEDIA_URL }} profile_images/blank-profile-picture.png" alt="Default Profile Image"  style="width: 50px; height: 50px; border-radius: 50%; object-fit: cover;" class="round" />
+                        {% endif %}
+                                    </div>
+                                    <div class="comment-content">
+                                        <h5 class="display-2 m-0">{{ comment_data.comment.author.username}}</h5>
+                                        <p class="title-secondary text-dark">{{ comment_data.comment.body }}</p>
+                                        <p>Posted on: {{ comment_data.comment.created_at }}</p><hr>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div> 
+                    
+                    <h3 class="text-center display-1 secondary-title py-2">Leave Comment</h3>
+                    {% if messages %}
+                        {% for message in messages %}
+                            <h3 class="text-center display-1 secondary-title py-2">{{ message }}</h3>
+                        {% endfor %}
+                    {% endif %}
+
+                    <div class="comment-form">
+                        <form action="" method="POST">
+                            {% csrf_token %}
+                            <div class="d-flex justify-content-between flex-wrap">
+                                <input type="text" class="form-control" name="name" placeholder="Name" required>
+                            </div>
+                            <textarea class="form-control mt-3" placeholder="Message" name="body" rows="10" required></textarea>
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-custom">Submit Comment</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>  
+                <!-- .Post Footer -->
+            </div>
+        </section>
+        <section class="slider">
+            <div class="container">
+                <!-- Slider Main Container -->
+                <div class="swiper-container">
+                    <!-- Additional Required Wrapper -->
+                    <div class="swiper-wrapper">
+                        <!-- Slides -->
+                        <div class="swiper-slide">
+                            <a href="#">
+                                <img src="./assets/slider/img1.jpg" class="img-fluid" alt="">
+                            </a>
+                        </div>
+                        <div class="swiper-slide">
+                            <a href="#">
+                                <img src="./assets/slider/img2.jpg" class="img-fluid" alt="">
+                            </a>
+                        </div>
+                        <div class="swiper-slide">
+                            <a href="#">
+                                <img src="./assets/slider/img3.jpg" class="img-fluid" alt="">
+                            </a>
+                        </div>
+                        <div class="swiper-slide">
+                            <a href="#">
+                                <img src="./assets/slider/img4.jpg" class="img-fluid" alt="">
+                            </a>
+                        </div>
+                        <div class="swiper-slide">
+                            <a href="#">
+                                <img src="./assets/slider/img5.jpg" class="img-fluid" alt="">
+                            </a>
+                        </div>
+                        <div class="swiper-slide">
+                            <a href="#">
+                                <img src="./assets/slider/img6.jpg" class="img-fluid" alt="">
+                            </a>
+                        </div>
+                        <div class="swiper-slide">
+                            <a href="#">
+                                <img src="./assets/slider/img7.jpg" class="img-fluid" alt="">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- .Swiper Slider -->
+    </main>
+
+    <!-- Import Bootstrap and JavaScript libraries for functionality -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/6.4.5/swiper-bundle.min.js"></script>
+    
+    <script>
+  var swiper = new Swiper('.swiper-container', {
+    slidesPerView: 1,
+    spaceBetween: 10,
+    loop: true,
+    autoplay: {
+      delay: 2500, // Slide will change every 3 seconds
+      disableOnInteraction: false, // Autoplay won't stop when the user interacts
+    },
+    pagination: {
+      el: '.swiper-pagination',
+      clickable: true,
+    },
+    navigation: {
+      nextEl: '.swiper-button-next',
+      prevEl: '.swiper-button-prev',
+    },
+  });
+</script>
+    
+</body>
+</html>

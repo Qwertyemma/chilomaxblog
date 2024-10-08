@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign Up Page</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background: linear-gradient(135deg, #6e8efb, #a777e3);
+    }
+
+    .signup-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+      width: 100%;
+    }
+
+    .form {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      max-width: 350px;
+      padding: 20px;
+      border-radius: 20px;
+      background-color: #ffffff; /* Changed background color to white */
+      color: #333; /* Changed text color to dark for contrast */
+      border: 1px solid #ddd; /* Light border for better visibility */
+    }
+
+    .title {
+      font-size: 28px;
+      font-weight: 600;
+      letter-spacing: -1px;
+      color: #00bfff;
+      text-align: center;
+      position: relative;
+      margin-bottom: 20px;
+    }
+
+    .title::before,
+    .title::after {
+      content: "";
+      height: 16px;
+      width: 16px;
+      border-radius: 50%;
+      background-color: #00bfff;
+      position: absolute;
+      left: 0px;
+    }
+
+    .title::before {
+      width: 18px;
+      height: 18px;
+    }
+
+    .title::after {
+      width: 18px;
+      height: 18px;
+      animation: pulse 1s linear infinite;
+    }
+
+    @keyframes pulse {
+      from {
+        transform: scale(0.9);
+        opacity: 1;
+      }
+      to {
+        transform: scale(1.8);
+        opacity: 0;
+      }
+    }
+
+    .form label {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .form label .input {
+      background-color: #f9f9f9; /* Lighter background for inputs */
+      color: #333; /* Darker text color for better readability */
+      width: 100%;
+      padding: 15px;
+      outline: 0;
+      border: 1px solid rgba(105, 105, 105, 0.397);
+      border-radius: 10px;
+      font-size: 16px;
+    }
+
+    .form label .input + span {
+      color: rgba(0, 0, 0, 0.5); /* Adjusted placeholder color */
+      position: absolute;
+      left: 10px;
+      top: 0px;
+      font-size: 0.9em;
+      cursor: text;
+      transition: 0.3s ease;
+    }
+
+    .form label .input:placeholder-shown + span {
+      top: 12.5px;
+      font-size: 0.9em;
+    }
+
+    .form label .input:focus + span,
+    .form label .input:valid + span {
+      color: #00bfff;
+      top: 0px;
+      font-size: 0.7em;
+      font-weight: 600;
+    }
+
+    .submit {
+      border: none;
+      outline: none;
+      padding: 10px;
+      border-radius: 10px;
+      color: #fff;
+      font-size: 16px;
+      background-color: #00bfff;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .submit:hover {
+      background-color: #00bfff96;
+    }
+
+    .signin {
+      text-align: center;
+      font-size: 14.5px;
+      color: rgba(0, 0, 0, 0.7);
+    }
+
+    .signin a {
+      color: #00bfff;
+      text-decoration: none;
+    }
+
+    .signin a:hover {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 768px) {
+      .signup-container {
+        padding: 20px;
+        width: 90%;
+      }
+
+      .form {
+        max-width: 100%;
+      }
+
+      .title {
+        font-size: 24px;
+      }
+
+      .submit {
+        font-size: 14px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .signup-container {
+        padding: 15px;
+      }
+
+      .title {
+        font-size: 22px;
+      }
+
+      .submit {
+        font-size: 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="signup-container">
+    <form action="{% url 'register' %}" method="POST" class="form" id="signupForm">
+      <div class="title">Create an account</div>
+
+      {% if messages %}
+          {% for message in messages %}
+              {% if message.tags == 'error' %}
+                  <center><h4 style="color: red;">{{message}}</h4></center>
+              {% else %}
+                  <center><h4 style="color: dodgerblue;">{{message}}</h4></center>
+              {% endif %}
+          {% endfor %}
+      {% endif %}
+      
+      {% csrf_token %}
+      <label for="firstname">
+        <input type="text" id="firstname" name="firstName" class="input" placeholder="" required>
+        <span>First Name</span>
+      </label>
+
+      <label for="lastname">
+        <input type="text" id="lastname" name="lastName" class="input" placeholder="" required>
+        <span>Last Name</span>
+      </label>
+
+      <label for="username">
+        <input type="text" id="username" name="username" class="input" placeholder="" required>
+        <span>Username</span>
+      </label>
+
+      <label for="email">
+        <input type="email" id="email" name="email" class="input" placeholder="" required>
+        <span>Email</span>
+      </label>
+
+      <label for="password">
+        <input type="password" id="password" name="password" class="input" placeholder="" required>
+        <span>Password</span>
+      </label>
+
+      <label for="confirm-password">
+        <input type="password" id="confirm-password" name="confirmPassword" class="input" placeholder="" required>
+        <span>Confirm Password</span>
+      </label>
+
+      <button type="submit" class="submit">Sign Up</button>
+
+      <p class="signin">Already have an account? <a href="{% url 'login' %}">Login</a></p>
+    </form>
+  </div>
+</body>
+</html>

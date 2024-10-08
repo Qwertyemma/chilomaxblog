@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to Chilomax Blog</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            background-color: #f4f7f6;
+            margin-top: 0;
+            color: #333; /* Text color in light mode */
+        }
+        .navbar-custom {
+            background-color: #007bff;
+        }
+        .navbar-custom .navbar-brand,
+        .navbar-custom .nav-link {
+            color: #fff;
+        }
+        .navbar-custom .nav-link:hover {
+            color: #d3d3d3;
+        }
+        .navbar-toggler {
+            color: #fff;
+            border: none;
+        }
+        .hero-section {
+            background: #007bff;
+            color: #fff;
+            padding: 40px 20px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        .hero-section h1 {
+            font-size: 2rem;
+            font-weight: 700;
+        }
+        .hero-section p {
+            font-size: 1.1rem;
+            font-weight: 400;
+        }
+        .btn-custom {
+            background-color: #28a745;
+            color: #fff;
+            border-radius: 25px;
+            padding: 10px 20px;
+            font-size: 1.1rem;
+            text-decoration: none;
+        }
+        .btn-custom:hover {
+            background-color: #218838;
+            color: #fff;
+        }
+        .btn-link {
+            color: #333; /* Default color for the button in light mode */
+            font-size: 1rem;
+            margin: 0;
+        }
+        .btn-link .fas {
+            color: #333; /* Default icon color in light mode (black or dark gray) */
+        }
+
+        /* Dark mode styles */
+        body.dark-mode {
+            background-color: #121212;
+            color: #ffffff; /* Text color in dark mode */
+        }
+        .navbar-custom.dark-mode {
+            background-color: #333;
+        }
+        .hero-section.dark-mode {
+            background-color: #444;
+        }
+        .btn-link.dark-mode {
+            color: #ffffff; /* Button text color in dark mode */
+        }
+        .dark-mode .btn-link .fas {
+            color: #ffffff; /* Icon color in dark mode (white) */
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 576px) {
+            .navbar-brand {
+                font-size: 16px;
+            }
+            .hero-section {
+                padding: 30px 10px;
+            }
+            .hero-section h1 {
+                font-size: 18px;
+            }
+            .hero-section p {
+                font-size: 16px;
+            }
+            .btn-custom {
+                font-size: 1rem;
+                padding: 8px 16px;
+            }
+            .navbar-nav {
+                text-align: center;
+                width: 100%;
+            }
+            .navbar-nav .nav-item {
+                margin-bottom: 10px;
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-custom">
+        <a class="navbar-brand" href="#">Chilomax Blog</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"><i class="fas fa-bars"></i></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="btn btn-custom btn-sm mx-1" href="{% url 'login' %}"><i class="fas fa-sign-in-alt btn-icon"></i> Login</a>
+                </li>
+                <li class="nav-item">
+                    <a class="btn btn-custom btn-sm mx-1" href="{% url 'register' %}"><i class="fas fa-user-plus btn-icon"></i> Sign Up</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    
+    <!-- Blog Navbar -->
+    <header id="header" class="shadow bg-light">
+        <nav class="navbar navbar-expand-lg navbar-light container">
+            <a href="#" class="navbar-brand text-dark">Chilomax Blog</a>
+
+            <!-- Toggle button -->
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#blogNavbar" aria-controls="blogNavbar" aria-expanded="false" aria-label="Toggle navigation">
+                <span><i class="fas fa-bars"></i></span>
+            </button>
+
+            <!-- Collapse on toggle button click -->
+            <div class="collapse navbar-collapse" id="blogNavbar">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item"><a href="{% url 'index' %}" class="nav-link">Home</a></li>
+                    <li class="nav-item"><a href="{% url 'dashboard' %}" class="nav-link">All Posts</a></li>
+                    <li class="nav-item"><a href="{% url 'about' %}" class="nav-link">About</a></li>
+                    <li class="nav-item"><a href="{% url 'contact' %}" class="nav-link">Contact</a></li>
+                    <li class="nav-item">
+                        <button id="theme-toggle" class="btn btn-link"><i class="fas fa-moon"></i> Dark Mode</button>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Social icons and search -->
+            <div class="collapse navbar-collapse">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item"><a href="#" class="nav-link"><i class="fas fa-search"></i></a></li>
+                    <li class="nav-item"><a href="#" class="nav-link"><i class="fab fa-facebook-f"></i></a></li>
+                    <li class="nav-item"><a href="#" class="nav-link"><i class="fab fa-twitter"></i></a></li>
+                    <li class="nav-item"><a href="#" class="nav-link"><i class="fab fa-instagram"></i></a></li>
+                    <li class="nav-item"><a href="#" class="nav-link"><i class="fab fa-dribbble"></i></a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="container">
+            <h1>Welcome to Chilomax Blog Application</h1>
+            <p class="mt-3">Hi, {{ user.username }}! Explore the latest posts, manage your posts, and share your experiences.</p>
+            <a href="{% url 'dashboard' %}" class="btn btn-custom btn-lg mt-4"><i class="fas fa-tachometer-alt btn-icon"></i> View Latest Posts</a>
+            {% if user.is_staff %}
+                <a href="{% url 'admin:index' %}" class="btn btn-custom btn-lg mt-4"><i class="fas fa-tachometer-alt btn-icon"></i> Go to Admin Dashboard</a>
+            {% endif %}
+        </div>
+    </section>
+
+    <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    
+    <script>
+        const toggleButton = document.getElementById('theme-toggle');
+        toggleButton.addEventListener('click', () => {
+            // Toggle dark mode class on the body
+            document.body.classList.toggle('dark-mode');
+
+            // Update the button content and icon color based on the current theme
+            if (document.body.classList.contains('dark-mode')) {
+                toggleButton.innerHTML = '<i class="fas fa-sun"></i> Light Mode';
+            } else {
+                toggleButton.innerHTML = '<i class="fas fa-moon"></i> Dark Mode';
+            }
+        });
+    </script>
+</body>
+</html>

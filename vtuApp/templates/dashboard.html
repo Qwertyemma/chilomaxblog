@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chilomax Blog</title>
+
+    <!-- Import Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <!-- Add Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <!-- Swiper Slider CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/6.4.5/swiper-bundle.min.css" crossorigin="anonymous">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <style>
+        body {
+            background-color: #f4f7f6;
+            font-family: 'Roboto', sans-serif;
+            line-height: 1.6;
+        }
+
+        .navbar-custom {
+            background-color: #007bff;
+        }
+
+        .navbar-custom .navbar-brand,
+        .navbar-custom .nav-link {
+            color: #fff;
+        }
+
+        .navbar-custom .nav-link:hover {
+            color: #d3d3d3;
+        }
+
+        .hero-section {
+            background: #007bff;
+            color: #fff;
+            padding: 60px 20px;
+            text-align: center;
+        }
+
+        .hero-section h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+        }
+
+        .hero-section p {
+            font-size: 1.2rem;
+            font-weight: 400;
+        }
+
+        .btn-custom {
+            background-color: #28a745;
+            color: #fff;
+            border-radius: 25px;
+            padding: 12px 24px;
+            font-size: 1.1rem;
+            text-decoration: none;
+        }
+
+        .btn-custom:hover {
+            background-color: #218838;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-section h1 {
+                font-size: 2rem;
+                font-weight: 500;
+            }
+        }
+
+        .article {
+            border: 1px solid #eaeaea;
+            border-radius: 10px;
+            overflow: hidden;
+            transition: box-shadow 0.3s;
+            background: #fff;
+        }
+
+        .article:hover {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .article img {
+            max-width: 100%;
+            height: auto;
+            border-bottom: 1px solid #eaeaea;
+        }
+
+        .text-title {
+            font-size: 1.25rem;
+            margin: 15px 0;
+        }
+
+        .text-secondary {
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+
+        .load-more {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s;
+        }
+
+        .load-more:hover {
+            background-color: #0056b3;
+        }
+
+        .swiper-pagination-bullet {
+            background: #007bff;
+        }
+
+        .swiper-pagination-bullet-active {
+            background: #28a745;
+        }
+
+        .alert {
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f8f9fa;
+            color: #856404;
+            padding: 15px;
+            margin-bottom: 20px;
+            width: 100%;
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .alert h4 {
+            margin: 0 0 10px;
+        }
+        
+        #delete-confirmation {
+    display: none; /* Initially hidden */
+    position: fixed; /* Fixed position */
+    top: 50%; /* Center vertically */
+    left: 50%; /* Center horizontally */
+    transform: translate(-50%, -50%); /* Translate back to center */
+    z-index: 1050; /* Make sure it's above other content */
+    background: white; /* Background color */
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Shadow for depth */
+    padding: 20px; /* Inner padding */
+    width: 300px; /* Set width */
+    text-align: center; /* Center the text */
+}
+
+/* Background overlay */
+#overlay {
+    display: none; /* Initially hidden */
+    position: fixed; /* Fixed position */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); /* Semi-transparent black */
+    z-index: 1040; /* Just below the confirmation popup */
+}
+    </style>
+</head>
+
+<body>
+    <!-- Header -->
+    <header class="shadow bg-light">
+        <nav class="navbar navbar-expand-lg navbar-custom container">
+            <a href="#" class="navbar-brand">Chilomax Blog</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#blogNavbar" aria-controls="blogNavbar" aria-expanded="false" aria-label="Toggle navigation">
+                <span><i class="fas fa-bars"></i></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="blogNavbar">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item"><a href="{% url 'index' %}" class="nav-link">Home</a></li>
+                    <li class="nav-item"><a href="{% url 'dashboard' %}" class="nav-link">All Posts</a></li>
+                    <li class="nav-item"><a href="{% url 'about' %}" class="nav-link">About</a></li>
+                    <li class="nav-item"><a href="{% url 'contact' %}" class="nav-link">Contact</a></li>
+                </ul>
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item"><a href="{% url 'settings' %}" class="nav-link"><i class="fas fa-user"></i> Profile</a></li>
+                    <li class="nav-item"><a href="{% url 'account-settings' %}" class="nav-link"><i class="fas fa-cog"></i> Account Settings</a></li>
+                    <li class="nav-item"><a href="{% url 'logout' %}" class="nav-link"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+    <!-- End Header -->
+
+    <!-- Main Site -->
+    <main id="site-main">
+        <!-- Hero Section -->
+        <section class="hero-section">
+            <h1>Welcome to Chilomax Blog</h1>
+            <p>Your daily source of inspiration and insights.</p>
+            <a href="{% url 'create_post' %}" class="btn-custom">Get Started</a>
+        </section>
+
+        <!-- Blog Post Section -->
+        <section id="posts" class="py-4">
+            <div class="container">
+                <div class="grid">
+                    <!-- Article -->
+                    {% for post in posts %}
+                    <article class="article">
+                        <a href="{% url 'detail' post.slug %}">
+                          {% if post.image and post.image.url %}
+                            <img src="{{ post.image.url }}" class="img-fluid" alt="{{ post.title }}" loading="lazy">
+                            {% endif %}
+                        </a>
+                        <div class="card-body text-center">
+                            <h2 class="text-title">
+                                <a href="{% url 'detail' post.slug %}" class="text-dark">{{ post.title }}</a>
+                            </h2>
+                            <p class="text-secondary">
+                                <span><i class="far fa-clock text-primary"></i> {{ post.date }}</span>
+                                <span><i class="far fa-comments text-primary"></i> 12</span>
+                            </p>
+                            {% if post.author == user %}
+                            <button class="btn btn-danger" onclick="showConfirmation({{ post.id }}, '{{ post.title }}')">Delete Post</button>
+                            <p><a href="{% url 'edit-post' post.slug %}">Edit Post</a></p>
+                            {% endif %}
+                        </div>
+                    </article>
+                    {% endfor %}
+            </div>
+                </div>
+              <!-- Overlay for confirmation popup -->
+<div id="overlay" onclick="hideConfirmation()"></div>
+
+<!-- Confirmation Popup -->
+<div id="delete-confirmation" class="alert alert-warning">
+    <h4>Confirm Deletion</h4>
+    <p>Are you sure you want to delete the post "<span id="delete-post-title"></span>"?</p>
+    <form method="POST" id="delete-post-form" action="">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Confirm Deletion</button>
+        <button type="button" class="btn btn-secondary" onclick="hideConfirmation()">Cancel</button>
+    </form>
+</div>
+
+                <div class="text-center mt-4">
+                    <button class="load-more">Load More Posts...</button>
+                </div>
+            </div>
+        </section>
+        <!-- End Blog Post Section -->
+
+        <!-- Swiper slider -->
+        <section class="slider py-4">
+            <div class="container">
+                <div class="swiper-container">
+                    <div class="swiper-wrapper">
+                      
+                    
+                        {% for j in posts %}
+                        <div class="swiper-slide">
+                            <a href="{% url 'detail' j.slug %}">
+                                <img src="{{ j.image.url }}" class="img-fluid" alt="{{ j.title }}">
+                            </a>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <div class="swiper-pagination"></div>
+                </div>
+            </div>
+        </section>
+        <!-- End Swiper slider -->
+    </main>
+    <!-- End Main Site -->
+    
+    <!-- Footer -->
+    <footer class="text-center py-4">
+        <div class="container">
+            <p>&copy; 2024 Chilomax Blog. All Rights Reserved.</p>
+            <div>
+                <a href="#" class="text-dark mx-2"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" class="text-dark mx-2"><i class="fab fa-twitter"></i></a>
+                <a href="#" class="text-dark mx-2"><i class="fab fa-instagram"></i></a>
+                <a href="#" class="text-dark mx-2"><i class="fab fa-linkedin-in"></i></a>
+            </div>
+        </div>
+    </footer>
+    <!-- End Footer -->
+
+    <!-- jQuery, Bootstrap JS, and Swiper JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz4fnFO9gybI4Xk70iOjD+qT5DQBB51FymF93+9F9T1H8J8Z7qfjCpVhRg" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/6.4.5/swiper-bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/6.4.5/swiper-bundle.min.js" crossorigin="anonymous"></script>
+
+    <script>
+       // Show delete confirmation
+function showConfirmation(postId, postTitle) {
+    document.getElementById('delete-post-title').innerText = postTitle;
+    document.getElementById('delete-post-form').action = `/post/delete/${postId}/`; // Adjust this action URL to match your delete endpoint
+    document.getElementById('delete-confirmation').style.display = 'block';
+    document.getElementById('overlay').style.display = 'block'; // Show overlay
+}
+
+// Hide delete confirmation
+function hideConfirmation() {
+    document.getElementById('delete-confirmation').style.display = 'none';
+    document.getElementById('overlay').style.display = 'none'; // Hide overlay
+}
+        // Load more posts functionality
+        document.querySelector('.load-more').addEventListener('click', function() {
+            // Your AJAX request to fetch more posts should go here
+            alert('Load more posts functionality to be implemented.');
+        });
+    </script>
+    <!-- Custom JavaScript -->
+    <script>
+    var swiper = new Swiper('.swiper-container', {
+        slidesPerView: 1,
+        spaceBetween: 30,
+        pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
+        },
+        autoplay: {
+            delay: 1000,
+            disableOnInteraction: false,
+        },
+    });
+</script>
+</body>
+</html>

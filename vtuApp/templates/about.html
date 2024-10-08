@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About | Chilomax Blog</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f8f9fa;
+            line-height: 1.6;
+        }
+
+        .container {
+            margin-top: 50px;
+        }
+
+        .card {
+            margin-bottom: 30px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-title {
+            font-weight: bold;
+            color: #1d4ed8;
+        }
+
+        .profile-pic {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .about-section {
+            padding: 60px 20px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .about-section h1,
+        .bio-section h2 {
+            color: #343a40;
+        }
+
+        .about-section p {
+            color: #6c757d;
+        }
+
+        .meta {
+            font-size: 14px;
+            margin-bottom: 20px;
+            color: #6c757d;
+        }
+
+        .meta a {
+            margin-right: 15px;
+            text-decoration: none;
+            color: #6c757d;
+        }
+
+        .meta a i {
+            margin-right: 5px;
+        }
+
+        .bio-section {
+            display: flex;
+            align-items: center;
+            margin-top: 40px;
+        }
+
+        .bio-section img {
+            margin-right: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .bio-section {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .bio-section img {
+                margin-bottom: 20px;
+            }
+        }
+
+        .nav-link {
+            font-size: 16px;
+            color: #343a40 !important;
+            margin-right: 20px;
+        }
+
+        .navbar-toggler {
+            border: none;
+        }
+
+        .navbar-toggler:focus {
+            outline: none;
+            box-shadow: none;
+        }
+
+        .navbar-toggler .fas {
+            font-size: 24px;
+            color: #343a40;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navbar -->
+    <header id="header" class="shadow-sm bg-white py-3">
+        <nav class="navbar navbar-expand-lg navbar-light">
+            <div class="container">
+                <a href="#" class="navbar-brand fw-bold">Chilomax Blog</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#blogNavbar"
+                    aria-controls="blogNavbar" aria-expanded="false" aria-label="Toggle navigation">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="collapse navbar-collapse" id="blogNavbar">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item"><a href="{% url 'index' %}" class="nav-link">Home</a></li>
+                        <li class="nav-item"><a href="{% url 'dashboard' %}" class="nav-link">All Posts</a></li>
+                        <li class="nav-item"><a href="{% url 'about' %}" class="nav-link active">About</a></li>
+                        <li class="nav-item"><a href="{% url 'contact' %}" class="nav-link">Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main content -->
+    <div class="container about-section">
+        <h1>About Chilomax Blog</h1>
+        <div class="meta">
+            <a href="#"><i class="fas fa-user text-primary"></i> Obiasogu Emmanuel</a>
+            <a href="#"><i class="fas fa-clock text-primary"></i> Mon 07, 2024</a>
+            <a href="#"><i class="fas fa-comments text-primary"></i> 12 Comments</a>
+        </div>
+
+        <p>Welcome to <strong>Chilomax Blog</strong> – your hub for insightful articles, professional tips, and engaging
+            discussions on various topics ranging from technology, entrepreneurship, personal development, and more. We aim to inspire, educate, and connect people with ideas that matter.</p>
+
+        <h2>Purpose of the Blog</h2>
+        <p>Our mission is to empower readers with practical knowledge and insights that can make a real impact in their daily lives. Whether you're here to enhance your tech skills, learn new strategies for personal development, or explore entrepreneurship, we’ve got something for you.</p>
+
+        <div class="bio-section">
+            {% if author_profile %}
+            {% if author_profile.profileimg %}
+            <img src="{{ author_profile.profileimg.url }}" alt="{{ author_profile.user.username }}'s Profile Image"
+                class="profile-pic" />
+            {% else %}
+            <img src="{{ MEDIA_URL }}profile_images/blank-profile-picture.png" alt="Default Profile Image"
+                class="profile-pic" />
+            {% endif %}
+            <div>
+                <h2>About the Author</h2>
+                <p>Hi, I’m <strong>{{ author_profile.user.first_name }} {{ author_profile.user.last_name }}</strong>, the
+                    founder of Chilomax Blog. I’m passionate about sharing knowledge and helping others grow, both in their
+                    professional careers and personal endeavors. With years of experience in tech and business, I started
+                    this blog to provide a platform where ideas can flourish, and readers can gain actionable insights.
+                    {{ author_profile.bio }}
+                </p>
+            </div>
+            {% else %}
+            <p>Admin profile not found.</p>
+            {% endif %}
+        </div>
+
+        <h2>What You Can Expect</h2>
+        <p>At Chilomax Blog, we offer in-depth tutorials, expert advice, and the latest trends in various fields. Our goal is to create a community where readers can come to find inspiration, stay informed, and get guidance on achieving their personal and professional goals.</p>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

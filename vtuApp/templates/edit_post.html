@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chilomax Blog</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f8f9fa;
+        }
+
+        .container {
+            margin-top: 50px;
+            max-width: 800px;
+        }
+
+        .card {
+            margin-bottom: 30px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-title {
+            font-weight: bold;
+            color: #1d4ed8;
+        }
+
+        .form-control {
+            border-radius: 10px;
+            padding: 10px;
+        }
+
+        textarea {
+            border: 2px solid #007bff; /* Border color */
+            border-radius: 10px; /* Rounded corners */
+            padding: 10px; /* Inner spacing */
+            font-size: 1rem; /* Font size */
+            resize: vertical; /* Allow vertical resizing only */
+            width: 100%; /* Full width of the parent container */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
+            transition: border-color 0.3s, box-shadow 0.3s; /* Smooth transition for focus effects */
+        }
+
+        textarea:focus {
+            border-color: #0056b3; /* Change border color on focus */
+            box-shadow: 0 0 8px rgba(0, 123, 255, 0.5); /* Highlight effect on focus */
+            outline: none; /* Remove the default outline */
+        }
+
+        textarea::placeholder {
+            color: #999; /* Placeholder text color */
+            font-style: italic; /* Italic style for placeholder text */
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, #007bff, #00c6ff);
+            border: none;
+            padding: 10px 15px;
+            border-radius: 10px;
+            transition: 0.3s;
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(45deg, #0056b3, #0088ff);
+        }
+
+        .btn-link {
+            color: #1d4ed8;
+            text-decoration: none;
+        }
+
+        .btn-link:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 576px) {
+            .container {
+                padding: 0 15px;
+            }
+
+            .card {
+                padding: 20px; /* Increased padding for smaller devices */
+            }
+
+            .form-control {
+                padding: 12px; /* More padding for input fields on smaller screens */
+            }
+
+            .btn-primary {
+                width: 100%; /* Make the button full-width on small screens */
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <header id="header" class="shadow bg-light">
+        <nav class="navbar navbar-expand-lg navbar-light">
+            <div class="container">
+                <a href="#" class="navbar-brand">Chilomax Blog</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#blogNavbar" aria-controls="blogNavbar" aria-expanded="false" aria-label="Toggle navigation">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="collapse navbar-collapse" id="blogNavbar">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item"><a href="{% url 'index' %}" class="nav-link">Home</a></li>
+                        <li class="nav-item"><a href="{% url 'dashboard' %}" class="nav-link">All Posts</a></li>
+                        <li class="nav-item"><a href="{% url 'about' %}" class="nav-link">About</a></li>
+                        <li class="nav-item"><a href="{% url 'contact' %}" class="nav-link">Contact</a></li>
+                        <li class="nav-item"><a href="{% url 'account-settings' %}" class="nav-link active">Account Settings</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div class="container">
+        <h2 class="mt-4">Edit Post: {{ post.title }}</h2>
+        <div class="card p-4">
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form.as_p }}
+
+                <button type="submit" class="btn btn-primary mt-3">Update Post</button>
+            </form>
+            <div class="mt-3">
+                <a href="{% url 'dashboard' %}" class="btn btn-link">Back to Dashboard</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

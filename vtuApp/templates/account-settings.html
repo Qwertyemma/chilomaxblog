@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Account Settings | Chilomax Blog</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f8f9fa;
+        }
+
+        .container {
+            margin-top: 50px;
+        }
+
+        .card {
+            margin-bottom: 30px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-title {
+            font-weight: bold;
+            color: #1d4ed8;
+        }
+
+        .form-control {
+            border-radius: 10px;
+            padding: 10px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, #007bff, #00c6ff);
+            border: none;
+            padding: 10px;
+            border-radius: 10px;
+            transition: 0.3s;
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(45deg, #0056b3, #0088ff);
+        }
+
+        .profile-pic {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .switch-button {
+            background-color: #D1D5DB;
+            border-radius: 9999px;
+            transition: background-color 0.3s ease;
+            width: 1.75rem;
+            height: 1rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .switch input:checked + .switch-button {
+            background-color: #1D4ED8;
+        }
+
+        .switch-button::before {
+            content: '';
+            width: 0.75rem;
+            height: 0.75rem;
+            background-color: white;
+            border-radius: 50%;
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            transition: left 0.3s ease;
+        }
+
+        input:checked + .switch-button::before {
+            left: calc(100% - 0.75rem - 2px);
+        }
+        .d-flex .font-semibold{
+          font-size: 16px;
+          font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navbar -->
+    <header id="header" class="shadow bg-light">
+        <nav class="navbar navbar-expand-lg navbar-light">
+            <div class="container">
+                <a href="#" class="navbar-brand">Chilomax Blog</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#blogNavbar" aria-controls="blogNavbar" aria-expanded="false" aria-label="Toggle navigation">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="collapse navbar-collapse" id="blogNavbar">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item"><a href="{% url 'index' %}" class="nav-link">Home</a></li>
+                        <li class="nav-item"><a href="{% url 'dashboard' %}" class="nav-link">All Posts</a></li>
+                        <li class="nav-item"><a href="{% url 'about' %}" class="nav-link">About</a></li>
+                        <li class="nav-item"><a href="{% url 'contact' %}" class="nav-link">Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <!-- Profile Card -->
+                <div class="card text-center">
+                    <div class="card-body">
+                        <h5 class="card-title">Account Settings</h5>
+
+                        <!-- Display success message -->
+                        {% if messages %}
+                        <div class="alert alert-success" role="alert">
+                            {% for message in messages %}
+                            {{ message }}
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+
+                        <form method="POST" enctype="multipart/form-data">
+                            {% csrf_token %}
+
+                            <!-- Profile Picture -->
+                            <div class="profile-pic-container mb-3">
+                                <img src="{{ user_profile.profileimg.url }}" alt="Profile Picture" class="profile-pic">
+                                <input type="file" id="profileimg" name="profileimg" class="form-control mt-2">
+                            </div>
+
+                            <!-- Username -->
+                            <div class="form-group mb-3">
+                                <label for="username">Username</label>
+                                <input type="text" class="form-control" id="username" name="username" value="{{ request.user.username }}" required>
+                            </div>
+
+                            <!-- Email -->
+                            <div class="form-group mb-3">
+                                <label for="email">Email</label>
+                                <input type="email" class="form-control" id="email" name="email" value="{{ request.user.email }}" required>
+                            </div>
+
+                            <!-- Bio -->
+                            <div class="form-group mb-3">
+                                <label for="bio">Bio</label>
+                                <textarea class="form-control" id="bio" name="bio" rows="3">{{ user_profile.bio }}</textarea>
+                            </div>
+
+                            <!-- Location -->
+                            <div class="form-group mb-3">
+                                <label for="location">Location</label>
+                                <input type="text" class="form-control" id="location" name="location" value="{{ user_profile.location }}">
+                            </div>
+
+                            <!-- Notification Preference -->
+                            <div class="form-group mb-3">
+                                <label for="notification_preference">Notification Preference</label>
+                                <select class="form-control" id="notification_preference" name="notification_preference" required>
+                                    <option value="in_app" {% if user_profile.notification_preference == 'in_app' %}selected{% endif %}>In-App Notification</option>
+                                    <option value="email" {% if user_profile.notification_preference == 'email' %}selected{% endif %}>Email</option>
+                                    <option value="sms" {% if user_profile.notification_preference == 'sms' %}selected{% endif %}>SMS</option>
+                                </select>
+                            </div>
+
+                            <!-- Submit Button -->
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save"></i> Save Changes
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Security Settings -->
+                <div class="card text-center">
+                    <div class="card-header">
+                        <h4 class="card-title">Change Password</h4>
+                    </div>
+                    <div class="card-body">
+                        <form method="POST" action="{% url 'change_password' %}">
+                            {% csrf_token %}
+                            <div class="form-group mb-3">
+                                <label for="currentPassword">Current Password</label>
+                                <input type="password" class="form-control" id="currentPassword" name="current_password" required>
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="newPassword">New Password</label>
+                                <input type="password" class="form-control" id="newPassword" name="new_password" required>
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="confirmPassword">Confirm New Password</label>
+                                <input type="password" class="form-control" id="confirmPassword" name="confirm_password" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-lock"></i> Update Password
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Privacy Settings Section -->
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title">Privacy Settings</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="space-y-4">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <h4 class="font-semibold">Who can follow me?</h4>
+                                <label class="switch">
+                                    <input type="checkbox" aria-label="Who can follow me?" {% if user_profile.follow_permission %}checked{% endif %}>
+                                    <span class="switch-button"></span>
+                                </label>
+                            </div>
+                            <hr>
+
+                            <div class="d-flex justify-content-between align-items-center">
+                                <h4 class="font-semibold">Show my email to followers?</h4>
+                                <label class="switch">
+                                    <input type="checkbox" aria-label="Show my email to followers?" {% if user_profile.show_email %}checked{% endif %}>
+                                    <span class="switch-button"></span>
+                                </label>
+                            </div>
+                            <hr>
+
+                            <div class="d-flex justify-content-between align-items-center">
+                                <h4 class="font-semibold">Allow direct messages?</h4>
+                                <label class="switch">
+                                    <input type="checkbox" aria-label="Allow direct messages?" {% if user_profile.allow_dm %}checked{% endif %}>
+                                    <span class="switch-button"></span>
+                                </label>
+                            </div>
+                            <hr>
+
+                            <div class="d-flex justify-content-between align-items-center">
+                                <h4 class="font-semibold">Enable two-factor authentication?</h4>
+                                <label class="switch">
+                                    <input type="checkbox" aria-label="Enable two-factor authentication?" {% if user_profile.two_factor_auth %}checked{% endif %}>
+                                    <span class="switch-button"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-light text-center py-3">
+        <p class="mb-0">© 2024 Chilomax Blog. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

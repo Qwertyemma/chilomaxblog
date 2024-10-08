@@ -2,7 +2,6 @@ asgiref==3.8.1
 certifi==2024.8.30
 charset-normalizer==3.3.2
 cloudinary==1.41.0
-dj-database-url==2.2.0
 Django==5.1.1
 django-cloudinary-storage==0.3.0
 django-jazzmin==3.0.0
@@ -10,7 +9,6 @@ gunicorn==23.0.0
 idna==3.10
 packaging==24.1
 pillow==10.4.0
-psycopg2-binary==2.9.9
 python-decouple==3.8
 pytz==2024.2
 requests==2.32.3

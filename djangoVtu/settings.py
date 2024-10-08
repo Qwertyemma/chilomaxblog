@@ -78,15 +78,20 @@ WSGI_APPLICATION = 'djangoVtu.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+# Additional settings ...
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'NAME':os.path.join(BASE_DIR,'db.sqlite3'),
     }
 }
 
-DATABASES["default"]=dj_database_url.parse(config("DATABASE_URL"))
-
+# Override with DATABASE_URL if defined
+if config('DATABASE_URL', default=None):
+    DATABASES['default'] = dj_database_url.parse(config('DATABASE_URL'))
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
 
